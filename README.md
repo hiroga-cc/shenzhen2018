@@ -1,5 +1,6 @@
 # StartupWeekend@深圳 - RaspberryPi
-## セットアップ
+
+# セットアップ
 * MacbookとRaspberry Piを同じネットワーク下に置く必要あり(テザリング等...)
   ※ 無料WiFiだとラズパイがWebのログイン画面を通ることができず詰みます。
 * オーディオ出力をアナログに切り替える必要あり(マウス操作がラク)
@@ -8,10 +9,36 @@
 ssh pi@127.20.10.11 # 環境は各自/デフォルトのパスワードはraspberry
 ```
 
+## QRコード読み取り
+```
+# 必要ライブラリ全般のインストール (numpyのインストールに1時間くらいかかることがある?)
+pip install -r requirements.txt
+
+# WebCameraのためのライブラリ
+sudo apt-get install libzbar-dev libzbar0
+wget https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.14.2.tar.bz2
+tar -jxvf v4l-utils-1.14.2.tar.bz2
+apt-get install debhelper dh-autoreconf autotools-dev autoconf-archive doxygen graphviz libasound2-dev libtool libjpeg-dev libqt4-dev libqt4-opengl-dev libudev-dev libx11-dev pkg-config udev make gcc git
+
+./bootstrap.sh
+./configure
+sudo apt-get remove libi2c-dev
+make
+sudo make install
+
+# 画像認識のためのライブラリ
+sudo apt-get install libopencv-dev
+sudo apt-get install python-opencv
+```
+
+## 光センサー
 * GrovePi関連のセットアップ
 * A1: 光センサー
 * D4: カメラ
   ※ラズパイ画面を外すと入出力にエラーが出るので注意
+
+## ビットコインのウォレットへのアクセス
+
 
 
 ## カバー開閉
