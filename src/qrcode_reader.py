@@ -15,7 +15,7 @@ class QrcodeReader():
 
         # image sizeを提案する。`v4l2-ctl --all`などのコマンドで調べられる。
         # zbarがQRコードを読み取りやすいように、fourcc(画像のフォーマット)はY800(Grayscale)を選択する。
-        self.size_x, self.size_y = self.video.set_format(640, 480, fourcc="YUYV")
+        self.size_x, self.size_y = self.video.set_format(640, 480, fourcc="Y800")
         print self.size_x, self.size_y
 
         # QRコードDecoder(zbarのラッパー)
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         select.select((r.video,), (), ())
         image_data = r.video.read()
         r.video.close()
-        image = Image.frombuffer("RGB", (r.size_x, r.size_y), image_data)
+        image = Image.frombuffer("L", (r.size_x, r.size_y), image_data)
         image.save("images/smile.jpg")
     finally:
         r.video.close()
