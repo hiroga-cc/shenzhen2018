@@ -15,9 +15,10 @@ class QrcodeReader():
         self.video = v4l2capture.Video_device("/dev/video0")
 
         # image sizeを提案する。`v4l2-ctl --all`などのコマンドで調べられる。
-        # zbarがQRコードを読み取りやすいように、fourcc(画像のフォーマット)はY800(Grayscale)を選択する。
-        self.size_x, self.size_y = self.video.set_format(640, 480, fourcc="Y800")
-        print self.size_x, self.size_y
+        # RGB3またはYUYV以外は指定可能なのか？
+        self.video.set_format(640, 480, fourcc="RGB3")
+        self.size_x, self.size_y, self.fourcc = self.video.get_format()
+        print self.size_x, self.size_y, self.fourcc
 
         # QRコードDecoder(zbarのラッパー)
         self.decoder = QrcodeDecoder()
@@ -39,10 +40,11 @@ class QrcodeReader():
             # デバイスがバッファーを満たすまで待機。
             select.select((self.video,), (), ())
             image_data = self.video.read()
+            self.video.stop()
             self.video.close()
-            image = Image.frombuffer("L", (self.size_x, self.size_y), image_data)
-            image.save("images/smile.jpg")
-            symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", image_data)
+            pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
+            pil.save("images/smile.jpg")
+            symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", pil.convert("L").tobytes())
             print "symbol", symbol
             return symbol
 
@@ -52,17 +54,19 @@ class QrcodeReader():
     def capture_forever(self):
         try:
             self.video.create_buffers(1)
-            self.video.queue_all_buffers()
-            self.video.start()
 
             while True:
+                self.video.queue_all_buffers()
+                self.video.start()
                 select.select((self.video,), (), ())
                 image_data = self.video.read_and_queue()
-                symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", image_data)
+                pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
+                pil.save("images/smile.jpg") # 本番ではコメントアウト
+                symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", pil.convert("L").tobytes())
                 print "symbol", symbol
                 if symbol is not None:
                     self.addr.write_addr(symbol)
-                time.sleep(5)
+                self.video.stop()
 
         finally:
             self.video.close()
