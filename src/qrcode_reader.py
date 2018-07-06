@@ -39,9 +39,13 @@ class QrcodeReader():
 
             # デバイスがバッファーを満たすまで待機。
             select.select((self.video,), (), ())
+
+            # Githubのサンプルコードにはないが、念の為stopを挟む。broken pipeが起きづらくなる気がする...?
             image_data = self.video.read()
             self.video.stop()
             self.video.close()
+
+            # PILでL(=Y800)に変換してからzbarにscanさせる。
             pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
             pil.save("images/smile.jpg")
             symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", pil.convert("L").tobytes())
@@ -55,11 +59,12 @@ class QrcodeReader():
         try:
             self.video.create_buffers(1)
 
+            # startをループの外側に出してもできそうだが、read()によってpipeが壊れているのをstop()で防げるのでは...という憶測でこう書いている。
             while True:
                 self.video.queue_all_buffers()
                 self.video.start()
                 select.select((self.video,), (), ())
-                image_data = self.video.read_and_queue()
+                image_data = self.video.read()
                 pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
                 pil.save("images/smile.jpg") # 本番ではコメントアウト
                 symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", pil.convert("L").tobytes())

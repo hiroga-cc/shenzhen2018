@@ -10,6 +10,12 @@ class QrcodeDecoderTest(unittest.TestCase):
         actual = r.decode_file("tests/test_qrcode/1234567890.png")
         self.assertEqual(expected, actual)
 
+    def test_1234567890_r(self):
+        r = QrcodeDecoder()
+        expected = "1234567890"
+        actual = r.decode_file("tests/test_qrcode/1234567890_r.png")
+        self.assertEqual(expected, actual)
+
     def test_btc(self):
         r = QrcodeDecoder()
         actual = r.decode_file("tests/test_qrcode/btc.jpg")
