@@ -1,2 +1,7 @@
 env
-.pyc
+images/
+todo
+
+.AppleDouble
+.DS_Store
+*.pyc

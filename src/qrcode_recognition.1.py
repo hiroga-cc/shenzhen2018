@@ -28,6 +28,8 @@ while True:
 
     # Start the device. This lights the LED if it's a camera that has one.
     video.start()
+    time.sleep(60)
+    print("sleep")
 
     # Wait for the device to fill the buffer.
     select.select((video,), (), ())
