@@ -1,4 +1,5 @@
+Image
 grovepi
-
-picamera
-numpy
+PIL
+v4l2capture
+zbar
