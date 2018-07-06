@@ -1,5 +1,4 @@
 import os, sys, unittest
-from PIL import Image
 sys.path.append("src/")
 from qrcode_reader import QrcodeReader
 

@@ -7,6 +7,7 @@ import v4l2capture
 import zbar
 
 from qrcode_decoder import QrcodeDecoder
+from addr import AddrHandler
 
 class QrcodeReader():
     def __init__(self):
@@ -21,8 +22,8 @@ class QrcodeReader():
         # QRコードDecoder(zbarのラッパー)
         self.decoder = QrcodeDecoder()
 
-        # 読み取った結果
-        self.symbol = None
+        # アドレス格納用クラス
+        self.addr = AddrHandler()
 
     def capture_once(self):
         try:
@@ -41,12 +42,31 @@ class QrcodeReader():
             self.video.close()
             image = Image.frombuffer("L", (self.size_x, self.size_y), image_data)
             image.save("images/smile.jpg")
-            self.symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", image_data)
-            print "symbol", self.symbol
-            return self.symbol
+            symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", image_data)
+            print "symbol", symbol
+            return symbol
 
         finally:
             self.video.close()
+
+    def capture_forever(self):
+        try:
+            self.video.create_buffers(1)
+            self.video.queue_all_buffers()
+            self.video.start()
+
+            while True:
+                select.select((self.video,), (), ())
+                image_data = self.video.read_and_queue()
+                symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", image_data)
+                print "symbol", symbol
+                if symbol is not None:
+                    self.addr.write_addr(symbol)
+                time.sleep(5)
+
+        finally:
+            self.video.close()
+
 
 if __name__ == "__main__":
     r = QrcodeReader()
