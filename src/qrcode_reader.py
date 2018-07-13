@@ -1,5 +1,6 @@
 # coding: utf-8
 import Image
+import ImageOps
 import select
 import time
 
@@ -47,6 +48,7 @@ class QrcodeReader():
 
             # PILでL(=Y800)に変換してからzbarにscanさせる。
             pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
+            pil = ImageOps.flip(pil)
             pil.save("images/smile.jpg")
             symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", pil.convert("L").tobytes())
             print "symbol", symbol
@@ -66,6 +68,7 @@ class QrcodeReader():
                 select.select((self.video,), (), ())
                 image_data = self.video.read()
                 pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
+                pil = ImageOps.flip(pil)
                 pil.save("images/smile.jpg") # 本番ではコメントアウト
                 symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", pil.convert("L").tobytes())
                 print "symbol", symbol
@@ -79,16 +82,6 @@ class QrcodeReader():
 
 if __name__ == "__main__":
     r = QrcodeReader()
-    try: 
-        r.video.create_buffers(1)
-        r.video.queue_all_buffers()
-        r.video.start()
-        print "Smile! 3 2 1..."
-        time.sleep(3)
-        select.select((r.video,), (), ())
-        image_data = r.video.read()
-        r.video.close()
-        image = Image.frombuffer("L", (r.size_x, r.size_y), image_data)
-        image.save("images/smile.jpg")
-    finally:
-        r.video.close()
+    print "Smile! 3 2 1..."
+    time.sleep(3)
+    r.capture_once()

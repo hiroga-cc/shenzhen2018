@@ -18,8 +18,9 @@ class QrcodeDecoderTest(unittest.TestCase):
 
     def test_btc(self):
         r = QrcodeDecoder()
+        expected="bitcoin:1HER2wsB1vro42YhVQRu8YjPVHPbFMfCVt?amount=0"
         actual = r.decode_file("tests/test_qrcode/btc.jpg")
-        self.assertIsNotNone(actual)
+        self.assertEqual(expected, actual)
 
     def test_not_qrcode(self):
         r = QrcodeDecoder()
