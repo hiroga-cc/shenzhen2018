@@ -8,4 +8,4 @@ blockchain-wallet-service start --port 3000 &
 python -B src/start_qrcode_reader.py &
 
 # Run Garbage Recognition
-
+python -B src/start_reward_payer.py &
