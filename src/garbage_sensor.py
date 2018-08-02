@@ -4,7 +4,7 @@ import grovepi
 
 class GarbageSensor():
     def __init__(self):
-        # 光検知センサーをD2にセットすること
+        # 光検知センサーをA2にセットすること
         self.light_sensor = 2
         self.cover_open = False
 
