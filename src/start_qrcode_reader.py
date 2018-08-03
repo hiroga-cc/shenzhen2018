@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # coding: utf-8
 from qrcode_reader import QrcodeReader
 

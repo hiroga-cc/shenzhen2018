@@ -1,4 +1,5 @@
 # coding: utf-8
+import time
 from garbage_sensor import GarbageSensor
 from addr import AddrHandler
 from addr_validator import *
@@ -16,6 +17,7 @@ class RewardPayer():
 
     def reception_open(self):
         while True:
+	    time.sleep(0.5)
             if self.sensor.was_trash_thrown() == True:
                 decorated_addr = self.addr_handler.cut_addr()
                 if decorated_addr == "":

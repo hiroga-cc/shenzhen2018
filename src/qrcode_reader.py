@@ -75,6 +75,7 @@ class QrcodeReader():
                 if symbol is not None:
                     self.addr.write_addr(symbol)
                 self.video.stop()
+		time.sleep(3)
 
         finally:
             self.video.close()
