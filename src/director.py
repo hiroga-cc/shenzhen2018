@@ -19,6 +19,9 @@ class Director():
         pygame.mixer.music.load("sounds/jinglebellssms.mp3")
         pygame.mixer.music.play()
 
+    def play_error(self):
+        pygame.mixer.music.load("sounds/error.wav")
+        pygame.mixer.music.play()
 
 if __name__ =="__main__":
     d = Director()

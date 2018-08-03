@@ -2,6 +2,7 @@
 import Image
 import ImageOps
 import select
+import sys
 import time
 
 import v4l2capture
@@ -70,7 +71,11 @@ class QrcodeReader():
                 self.video.queue_all_buffers()
                 self.video.start()
                 select.select((self.video,), (), ())
-                image_data = self.video.read()
+                try:
+                    image_data = self.video.read()
+                except IOError as e:
+                    self.director.play_error()
+                    sys.exit(0)
                 pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
                 pil = ImageOps.flip(pil)
                 pil.save("images/smile.jpg") # 本番ではコメントアウト
