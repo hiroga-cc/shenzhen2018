@@ -6,10 +6,17 @@ import pygame
 class Director():
     def __init__(self):
         pygame.mixer.init()
-        pygame.mixer.music.load("jinglebellssms.mp3")
+
+    def play_decoded(self):
+        pygame.mixer.music.load("sounds/address.wav")
+        pygame.mixer.music.play()
         
-    def play(self):
+    def play_thanks(self):
         print("Start Playing")
+        pygame.mixer.music.load("sounds/payment_thanks.wav")
+        pygame.mixer.music.play()
+
+        pygame.mixer.music.load("sounds/jinglebellssms.mp3")
         pygame.mixer.music.play()
 
 

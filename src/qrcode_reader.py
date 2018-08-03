@@ -9,6 +9,7 @@ import zbar
 
 from qrcode_decoder import QrcodeDecoder
 from addr import AddrHandler
+from director import Director
 
 class QrcodeReader():
     def __init__(self):
@@ -26,6 +27,9 @@ class QrcodeReader():
 
         # アドレス格納用クラス
         self.addr = AddrHandler()
+
+        # 音声監督
+        self.director = Director()
 
     def capture_once(self):
         try:
@@ -73,6 +77,7 @@ class QrcodeReader():
                 symbol = self.decoder.decode_bytes(self.size_x, self.size_y, "Y800", pil.convert("L").tobytes())
                 print "symbol", symbol
                 if symbol is not None:
+                    self.director.play_decoded()
                     self.addr.write_addr(symbol)
                 self.video.stop()
 		time.sleep(3)

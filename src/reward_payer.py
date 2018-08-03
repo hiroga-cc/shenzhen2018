@@ -30,4 +30,4 @@ class RewardPayer():
                     continue
                 self.wallet.payment(addr, PAY_AMOUNT)
                 print("Payment Complete! Pay to:" + addr + " Amount: " + PAY_AMOUNT)
-                self.director.play()
+                self.director.play_thanks()
