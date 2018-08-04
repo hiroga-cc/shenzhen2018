@@ -8,19 +8,19 @@ class Director():
         pygame.mixer.init()
 
     def play_decoded(self):
-        pygame.mixer.music.load("sounds/address.wav")
+        pygame.mixer.music.load("sounds/address.mp3")
         pygame.mixer.music.play()
         
     def play_thanks(self):
         print("Start Playing")
-        pygame.mixer.music.load("sounds/payment_thanks.wav")
+        pygame.mixer.music.load("sounds/payment_thanks.mp3")
         pygame.mixer.music.play()
 
         pygame.mixer.music.load("sounds/jinglebellssms.mp3")
         pygame.mixer.music.play()
 
     def play_error(self):
-        pygame.mixer.music.load("sounds/error.wav")
+        pygame.mixer.music.load("sounds/error.mp3")
         pygame.mixer.music.play()
 
 if __name__ =="__main__":
