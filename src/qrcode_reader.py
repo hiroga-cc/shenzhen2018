@@ -86,7 +86,7 @@ class QrcodeReader():
                     self.director.play_decoded()
                     self.addr.write_addr(symbol)
                 self.video.stop()
-		time.sleep(3)
+		time.sleep(1)
 
         finally:
             self.video.close()
