@@ -15,6 +15,7 @@ class Director():
         print("Start Playing")
         pygame.mixer.music.load("sounds/payment_thanks.wav")
         pygame.mixer.music.play()
+	time.sleep(5)
 
         pygame.mixer.music.load("sounds/jinglebellssms.mp3")
         pygame.mixer.music.play()
