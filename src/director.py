@@ -8,12 +8,12 @@ class Director():
         pygame.mixer.init()
 
     def play_decoded(self):
-        pygame.mixer.music.load("sounds/address.mp3")
+        pygame.mixer.music.load("sounds/address_big.mp3")
         pygame.mixer.music.play()
         
     def play_thanks(self):
         print("Start Playing")
-        pygame.mixer.music.load("sounds/payment_thanks.mp3")
+        pygame.mixer.music.load("sounds/payment_thanks_big.mp3")
         pygame.mixer.music.play()
 	time.sleep(5)
 
@@ -21,7 +21,7 @@ class Director():
         pygame.mixer.music.play()
 
     def play_error(self):
-        pygame.mixer.music.load("sounds/error.mp3")
+        pygame.mixer.music.load("sounds/error_big.mp3")
         pygame.mixer.music.play()
 
 if __name__ =="__main__":
