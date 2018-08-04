@@ -75,7 +75,6 @@ class QrcodeReader():
                     image_data = self.video.read()
                 except IOError as e:
                     self.director.play_error()
-                    time.sleep(10)
                     sys.exit(0)
                 pil = Image.frombuffer("RGB", (self.size_x, self.size_y), image_data)
                 pil = ImageOps.flip(pil)

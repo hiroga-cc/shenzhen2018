@@ -10,19 +10,22 @@ class Director():
     def play_decoded(self):
         pygame.mixer.music.load("sounds/address_big.mp3")
         pygame.mixer.music.play()
+        time.sleep(3)
         
     def play_thanks(self):
-        print("Start Playing")
         pygame.mixer.music.load("sounds/payment_thanks_big.mp3")
         pygame.mixer.music.play()
-	time.sleep(5)
-
+        time.sleep(3)
+	
+    def play_bell(self):
         pygame.mixer.music.load("sounds/jinglebellssms.mp3")
         pygame.mixer.music.play()
+        time.sleep(3)
 
     def play_error(self):
         pygame.mixer.music.load("sounds/error_big.mp3")
         pygame.mixer.music.play()
+        time.sleep(10)
 
 if __name__ =="__main__":
     d = Director()

@@ -19,6 +19,7 @@ class RewardPayer():
         while True:
 	    time.sleep(0.5)
             if self.sensor.was_trash_thrown() == True:
+                self.director.play_bell()
                 decorated_addr = self.addr_handler.cut_addr()
                 if decorated_addr == "":
                     print("QRコードリーダーから何も読み取っていません.")
